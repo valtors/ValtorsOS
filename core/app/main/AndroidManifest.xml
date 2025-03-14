@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <uses-feature
+      android:name="android.hardware.telephony"
+      android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+  <uses-permission android:name="android.permission.BLUETOOTH" />
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+  <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+  <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+  <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+  <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+  
+  <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+  <uses-permission android:name="android.permission.WRITE_MEDIA_VIDEO" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+
+
+    <!-- Application node is not neccessary for libraries -->
+  <application>
+    <receiver
+        android:name=".BootReceiver"
+        android:enabled="true"
+        android:exported="true">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+      </intent-filter>
+    </receiver>
+
+    <activity
+        android:name="com.valtors.core.MainActivity"
+        android:exported="true"
+        android:theme="@style/AppTheme">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data
+            android:scheme="valtors"
+            android:host="open" />
+      </intent-filter>
+    </activity>
+    <activity
+        android:name="com.valtors.core.PermissionsActivity"
+        android:exported="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+    <service android:name=".ScreenCaptureService"
+        android:exported="false"
+        android:foregroundServiceType="mediaProjection" />
+      <service
+          android:name=".glassesmanager.camera.CameraRecordingService"
+          android:enabled="true"
+          android:exported="false"
+          android:foregroundServiceType="camera|microphone" />
+    <service android:name="com.valtors.core.ValtorsService"
+        android:foregroundServiceType="microphone"
+        android:exported="true"
+        android:label="ValtorsOS Main"
+        android:theme="@style/AppTheme">
+        <intent-filter>
+          <action android:name="ACTION_START_CORE" />
+          <action android:name="ACTION_STOP_CORE" />
+        </intent-filter>
+    </service>
+    <service android:name="com.valtors.core.ValtorsGlassesService"
+        android:foregroundServiceType="microphone"
+        android:exported="true"
+        android:label="ValtorsOS SGM"
+        android:theme="@style/AppTheme">
+      <intent-filter>
+        <action android:name="VALTORS_INTENT" />
+      </intent-filter>
+    </service>
+
+    <receiver
+        android:name="com.valtors.core.tpa.ValtorsOSLibBroadcastReceiver"
+        android:enabled="true"
+        android:exported="true" >
+      <intent-filter>
+        <action android:name="com.valtors.fromtpa" />
+      </intent-filter>
+    </receiver>
+
+    <provider
+        android:name="androidx.core.content.FileProvider"
+        android:authorities="${applicationId}.provider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+      <meta-data
+          android:name="android.support.FILE_PROVIDER_PATHS"
+          android:resource="@xml/file_provider" />
+    </provider>
+
+  </application>
+
+    <queries> <intent> <action android:name="android.media.action.IMAGE_CAPTURE" /> </intent> </queries>
+
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.TTS_SERVICE" />
+    </intent>
+  </queries>
+
+  <queries>
+    <intent>
+      <action android:name="VALTORS_INTENT" />
+    </intent>
+  </queries>
+
+  <queries>
+    <package android:name="com.valtors.manager" />
+  </queries>
+
+</manifest>

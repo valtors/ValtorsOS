@@ -2,14 +2,14 @@ package com.valtors.core;
 
 import android.util.Log;
 
-import com.valtors.core.glassesmanager.eventbusmessages.NEWASRLanguagesEvent;
-import com.valtors.core.glassesmanager.speechrecognition.ASRStreamKey;
+import com.valtors.core.glassesmanager.eventbusmessages.NewAsrLanguagesEvent;
+import com.valtors.core.glassesmanager.speechrecognition.AsrStreamKey;
 import com.valtors.core.tpa.EdgeTPASystem;
-import com.valtors.lib.enums.ASRStreamType;
+import com.valtors.lib.enums.AsrStreamType;
 import com.valtors.lib.events.KillTpaEvent;
 import com.valtors.lib.events.SpeechRecOutputEvent;
-import com.valtors.lib.events.StartASRStreamRequestEvent;
-import com.valtors.lib.events.StopASRStreamRequestEvent;
+import com.valtors.lib.events.StartAsrStreamRequestEvent;
+import com.valtors.lib.events.StopAsrStreamRequestEvent;
 import com.valtors.lib.events.TranslateOutputEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -65,6 +65,7 @@ public class AsrPlanner {
             transcriptsBuffer.add(text);
         }
     }
+
     @Subscribe
     public void onTranslate(TranslateOutputEvent event){
         String fromLanguageCode = event.fromLanguageCode;
